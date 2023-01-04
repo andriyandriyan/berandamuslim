@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
+    "next/core-web-vitals"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+      }
+    }
+  ],
+  "rules": {
+    "arrow-parens": ["error", "as-needed"],
+    "react/prop-types": "off",
+    "react/function-component-definition": [
+      "error",
+      { "namedComponents": "arrow-function" }
+    ],
+    "import/extensions": ["error", "never"],
+    "react/require-default-props": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "react/jsx-props-no-spreading": "off"
+  }
+}
