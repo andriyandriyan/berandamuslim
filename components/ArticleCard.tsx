@@ -25,7 +25,6 @@ const ArticeCard: FC<ArticeCardProps> = ({ article, innerRef, onBookmark }) => {
   const [
     isBookmark, setIsBookmark,
   ] = useState(bookmarks.some(bookmark => bookmark.id === article.id));
-  const defaultImage = '/images/default-cover-image.webp';
 
   const onClick = () => {
     window.open(article.sourceUrl, '_blank');
@@ -71,7 +70,7 @@ const ArticeCard: FC<ArticeCardProps> = ({ article, innerRef, onBookmark }) => {
           {article.image ? (
             <img
               src={article.image}
-              alt="Gambar cover artikel"
+              alt={article.title}
               loading="lazy"
               className="object-cover w-full h-44"
             />
@@ -106,7 +105,7 @@ const ArticeCard: FC<ArticeCardProps> = ({ article, innerRef, onBookmark }) => {
       <div className="flex items-center p-4">
         {article.source.image ? (
           <img
-            src={article.source.image || defaultImage}
+            src={article.source.image}
             width={36}
             height={36}
             alt={`Logo ${article.source.name}`}
