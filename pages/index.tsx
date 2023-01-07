@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { GroupBase } from 'react-select';
 import { AsyncPaginate, LoadOptions } from 'react-select-async-paginate';
-import { ArticleCard, ArticleCardSkeleton } from '~/components';
+import { ArticleCard, ArticleCardSkeleton, ScrollToTop } from '~/components';
 import { api } from '~/helpers';
 import { useInfiniteScroll } from '~/hooks';
 import { Article, ResponseAPI } from '~/interfaces';
@@ -193,6 +193,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           <p className="text-sm text-gray-700">Coba ganti dengan kata kunci lain</p>
         </div>
       )}
+      <ScrollToTop />
     </div>
   );
 };
