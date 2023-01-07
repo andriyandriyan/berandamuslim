@@ -4,7 +4,7 @@ import camelcaseKeys from 'camelcase-keys';
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FormEventHandler, useEffect, useState } from 'react';
-import { GroupBase } from 'react-select';
+import { GroupBase, SingleValue } from 'react-select';
 import { AsyncPaginate, LoadOptions } from 'react-select-async-paginate';
 import { ArticleCard, ArticleCardSkeleton, ScrollToTop } from '~/components';
 import { api } from '~/helpers';
@@ -73,6 +73,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   const { search = '', category = '' }: Query = query;
   const [searchInput, setSearchInput] = useState(search);
   const [categoryInput, setCategoryInput] = useState(category);
+  const [categorySlug = '', categoryName = ''] = category.split('_');
 
   useEffect(() => {
     setSearchInput(search);
@@ -80,11 +81,11 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
   const {
     data: resData, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage,
-  } = useInfiniteQuery(['articles', search, category], ({ pageParam = 1 }) => api.articles({
+  } = useInfiniteQuery(['articles', search, categorySlug], ({ pageParam = 1 }) => api.articles({
     page: pageParam,
     perPage: 18,
     search,
-    category,
+    category: categorySlug,
   }), {
     getNextPageParam: (
       { meta }: ResponseAPI,
@@ -104,12 +105,32 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     isLoading: isFetchingNextPage,
   });
 
+  const onChangeCategory = (option?: SingleValue<Option>) => {
+    const value = option ? `${option.value}_${option.label}` : '';
+    setCategoryInput(value);
+    if (!value) {
+      const urlSearchParams = new URLSearchParams(document.location.search);
+      urlSearchParams.delete('category');
+      push(`?${urlSearchParams.toString()}`);
+    }
+  };
+
   const submit: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
-    const urlSearchParams = new URLSearchParams(document.location.search);
-    urlSearchParams.set('search', searchInput);
-    urlSearchParams.set('category', categoryInput);
-    push(`?${urlSearchParams.toString()}`);
+    if (searchInput || categoryInput) {
+      const urlSearchParams = new URLSearchParams(document.location.search);
+      if (searchInput) {
+        urlSearchParams.set('search', searchInput);
+      } else {
+        urlSearchParams.delete('search');
+      }
+      if (categoryInput) {
+        urlSearchParams.set('category', categoryInput);
+      } else {
+        urlSearchParams.delete('category');
+      }
+      push(`?${urlSearchParams.toString()}`);
+    }
   };
 
   const clearInput = () => {
@@ -124,9 +145,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
       <div className="flex items-center justify-center mb-8">
         <form onSubmit={submit} className="w-full md:max-w-xl flex flex-col sm:flex-row">
           <AsyncPaginate
-            // value={value}
+            value={categorySlug ? {
+              value: categorySlug,
+              label: categoryName,
+            } : undefined}
             loadOptions={loadOptions}
-            onChange={option => setCategoryInput(option?.value || '')}
+            onChange={onChangeCategory}
             additional={{
               page: 1,
             }}
