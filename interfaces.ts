@@ -43,3 +43,25 @@ export interface BaseParams {
 export interface ArticleParams extends BaseParams {
   category?: string;
 }
+
+export interface Channel {
+  id: string;
+  name: string;
+  image: string;
+  customUrl: string;
+}
+
+export interface Video {
+  id: string;
+  title: string;
+  description?: string;
+  thumbnail: string;
+  duration: string;
+  channelId: string;
+  channel: Channel;
+  publishedAt: string;
+}
+
+export interface VideoParams extends BaseParams {
+  channelIds?: string[];
+}

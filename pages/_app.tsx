@@ -6,6 +6,7 @@ import { id } from 'date-fns/locale';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import NextNProgress from 'nextjs-progressbar';
 import { Aside, BottomNav, Header } from '~/components';
 
 setDefaultOptions({ locale: id });
@@ -79,6 +80,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => (
         }
     `}
     </style>
+    <NextNProgress color="#2b62b6" />
     <div>
       <Header />
       <Aside />

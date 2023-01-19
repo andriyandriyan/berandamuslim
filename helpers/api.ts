@@ -1,6 +1,14 @@
 import { AxiosResponse } from 'axios';
 import {
-  Article, ArticleCategory, ArticleParams, BaseParams, ResponseAPI, Source,
+  Article,
+  ArticleCategory,
+  ArticleParams,
+  BaseParams,
+  Channel,
+  ResponseAPI,
+  Source,
+  Video,
+  VideoParams,
 } from '../interfaces';
 import http from './http';
 
@@ -23,6 +31,12 @@ const api = {
   },
   articles(params: ArticleParams) {
     return apiHandler<Article[]>(http.get('articles', { params }));
+  },
+  channels() {
+    return apiHandler<Channel[]>(http.get('channels'));
+  },
+  videos(params: VideoParams) {
+    return apiHandler<Video[]>(http.get('videos', { params }));
   },
   sendFeedback(name: string, message: string) {
     return apiHandler(http.post('feedbacks', { name, message }));

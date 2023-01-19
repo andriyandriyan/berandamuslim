@@ -37,7 +37,7 @@ const ArticeCard: FC<ArticeCardProps> = ({ article, innerRef, onBookmark }) => {
   };
 
   const toggleBookmark = () => {
-    utils.toggleBookmark(article);
+    utils.toggleArticleBookmark(article);
     setIsBookmark(prevState => !prevState);
     onBookmark?.();
   };
