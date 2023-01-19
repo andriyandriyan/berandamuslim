@@ -1,20 +1,20 @@
 import '../styles/globals.css';
 import { Poppins } from '@next/font/google';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import dayjs from 'dayjs';
-import 'dayjs/locale/id';
+import { setDefaultOptions } from 'date-fns';
+import { id } from 'date-fns/locale';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Aside, BottomNav, Header } from '~/components';
+
+setDefaultOptions({ locale: id });
 
 const poppins = Poppins({
   weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-poppins',
 });
-
-dayjs.locale('id');
 
 const queryClient = new QueryClient();
 

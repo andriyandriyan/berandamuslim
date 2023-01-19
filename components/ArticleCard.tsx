@@ -1,18 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-danger */
 import { IconBookmark } from '@tabler/icons';
-import dayjs from 'dayjs';
-import isToday from 'dayjs/plugin/isToday';
-import isYesterday from 'dayjs/plugin/isYesterday';
+import { format, isToday, isYesterday } from 'date-fns';
 import Link from 'next/link';
 import {
   FC, LegacyRef, memo, useMemo, useState,
 } from 'react';
 import { utils } from '~/helpers';
 import { Article } from '~/interfaces';
-
-dayjs.extend(isToday);
-dayjs.extend(isYesterday);
 
 interface ArticeCardProps {
   article: Article;
@@ -21,7 +16,7 @@ interface ArticeCardProps {
 }
 
 const ArticeCard: FC<ArticeCardProps> = ({ article, innerRef, onBookmark }) => {
-  const bookmarks: Article[] = typeof localStorage !== 'undefined' ? utils.getBookmarks() : [];
+  const bookmarks: Article[] = typeof localStorage !== 'undefined' ? utils.getArticleBookmarks() : [];
   const [
     isBookmark, setIsBookmark,
   ] = useState(bookmarks.some(bookmark => bookmark.id === article.id));
@@ -31,13 +26,14 @@ const ArticeCard: FC<ArticeCardProps> = ({ article, innerRef, onBookmark }) => {
   };
 
   const published = (date: string) => {
-    if (dayjs(date).isToday()) {
+    const formattedDate = new Date(date);
+    if (isToday(formattedDate)) {
       return 'Hari ini';
     }
-    if (dayjs(date).isYesterday()) {
+    if (isYesterday(formattedDate)) {
       return 'Kemarin';
     }
-    return dayjs(date).format('DD MMM YYYY');
+    return format(formattedDate, 'dd LLL yyyy');
   };
 
   const toggleBookmark = () => {
@@ -51,7 +47,8 @@ const ArticeCard: FC<ArticeCardProps> = ({ article, innerRef, onBookmark }) => {
       return '';
     }
     const urlSearchParams = new URLSearchParams(document.location.search);
-    urlSearchParams.set('category', article.articleCategory.slug);
+    const { slug, name } = article.articleCategory;
+    urlSearchParams.set('category', `${slug}_${name}`);
     return `?${urlSearchParams.toString()}`;
   }, [article]);
 
