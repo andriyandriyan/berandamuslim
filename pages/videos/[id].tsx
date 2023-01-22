@@ -1,4 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 import { api } from '~/helpers';
 import { ResponseAPI, Video } from '~/interfaces';
@@ -20,6 +21,9 @@ const DetailVideo: NextPage<InferGetServerSidePropsType<typeof getServerSideProp
   video,
 }) => (
   <div>
+    <Head>
+      <title>{`${video.data.title} - Beranda Muslim`}</title>
+    </Head>
     <iframe
       src={`https://www.youtube.com/embed/${video.data.id}`}
       title={video.data.title}

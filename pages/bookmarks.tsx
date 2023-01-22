@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useCallback, useEffect, useState } from 'react';
 import {
-  ArticleCard, ScrollToTop, Tab, Tabs, VideoCard,
+  ArticleCard, ModalVideo, ScrollToTop, Tab, Tabs, VideoCard,
 } from '~/components';
 import { utils } from '~/helpers';
 import { Article, Video } from '~/interfaces';
@@ -11,6 +11,9 @@ import { Article, Video } from '~/interfaces';
 const Bookmarks: NextPage = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [videos, setVideos] = useState<Video[]>([]);
+  const [prevUrl, setPrevUrl] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<Video>();
 
   useEffect(() => {
     setArticles(utils.getArticleBookmarks());
@@ -24,6 +27,18 @@ const Bookmarks: NextPage = () => {
   const onVideoBookmark = useCallback(() => {
     setVideos(utils.getVideoBookmarks());
   }, []);
+
+  const onClick = (video: Video) => () => {
+    setShowModal(true);
+    setSelectedVideo(video);
+    setPrevUrl(window.location.href);
+    window.history.pushState(null, video.title, `/videos/${video.id}`);
+  };
+
+  const onHideModal = () => {
+    setShowModal(false);
+    window.history.replaceState(null, '', prevUrl);
+  };
 
   const tabs: Tab[] = [
     {
@@ -52,7 +67,12 @@ const Bookmarks: NextPage = () => {
         <div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {videos.map(video => (
-              <VideoCard key={video.id} video={video} onBookmark={onVideoBookmark} />
+              <VideoCard
+                key={video.id}
+                video={video}
+                onBookmark={onVideoBookmark}
+                onClick={onClick(video)}
+              />
             ))}
           </div>
           {!videos.length && (
@@ -75,6 +95,13 @@ const Bookmarks: NextPage = () => {
         <Tabs tabs={tabs} />
         <ScrollToTop />
       </div>
+      {selectedVideo && (
+        <ModalVideo
+          show={showModal}
+          onHide={onHideModal}
+          video={selectedVideo}
+        />
+      )}
     </>
   );
 };
