@@ -36,6 +36,12 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
   const [selectedVideo, setSelectedVideo] = useState<Video>();
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('popstate', () => setShowModal(false));
+    }
+  }, []);
+
+  useEffect(() => {
     setSearchInput(search);
   }, [search]);
 
