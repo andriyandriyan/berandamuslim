@@ -38,6 +38,9 @@ const api = {
   videos(params: VideoParams) {
     return apiHandler<Video[]>(http.get('videos', { params }));
   },
+  detailVideo(id: string) {
+    return apiHandler<Video>(http.get(`videos/${id}`));
+  },
   sendFeedback(name: string, message: string) {
     return apiHandler(http.post('feedbacks', { name, message }));
   },

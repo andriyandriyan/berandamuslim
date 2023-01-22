@@ -69,10 +69,10 @@ const ArticeCard: FC<ArticeCardProps> = ({ article, innerRef, onBookmark }) => {
               src={article.image}
               alt={article.title}
               loading="lazy"
-              className="object-cover w-full h-44"
+              className="object-cover w-full aspect-video"
             />
           ) : (
-            <div className="w-full h-44 p-4 bg-primary-500 flex items-center justify-center relative">
+            <div className="w-full aspect-video p-4 bg-primary-500 flex items-center justify-center relative">
               <div className="absolute left-2 top-4 text-9xl font-semibold text-black/10 z-[1]">
                 {article.title[0]}
               </div>

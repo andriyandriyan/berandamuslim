@@ -8,6 +8,7 @@ import ReactSelect, { MultiValue } from 'react-select';
 import { api } from '~/helpers';
 import { useInfiniteScroll } from '~/hooks';
 import { ResponseAPI, Video } from '~/interfaces';
+import ModalVideo from './ModalVideo';
 import VideoCard from './VideoCard';
 
 interface Option {
@@ -30,6 +31,9 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
   const [searchInput, setSearchInput] = useState(search);
   const [channelInput, setChannelInput] = useState(channel);
   const channelIds = channelInput.split(',');
+  const [prevUrl, setPrevUrl] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<Video>();
 
   useEffect(() => {
     setSearchInput(search);
@@ -103,6 +107,18 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
     push(`?${urlSearchParams.toString()}`);
   };
 
+  const onClick = (video: Video) => () => {
+    setShowModal(true);
+    setSelectedVideo(video);
+    setPrevUrl(window.location.href);
+    window.history.pushState(null, video.title, `/videos/${video.id}`);
+  };
+
+  const onHideModal = () => {
+    setShowModal(false);
+    window.history.replaceState(null, '', prevUrl);
+  };
+
   return (
     <>
       <div className="flex items-center justify-center mb-8">
@@ -166,6 +182,7 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
             key={video.id}
             video={video}
             innerRef={i === videos.length - 1 ? ref : undefined}
+            onClick={onClick(video)}
           />
         ))}
       </div>
@@ -176,6 +193,13 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
           <h3 className="text-lg font-medium text-gray-900">Hasil pencarian tidak ditemukan</h3>
           <p className="text-sm text-gray-700">Coba ganti dengan kata kunci lain</p>
         </div>
+      )}
+      {selectedVideo && (
+        <ModalVideo
+          show={showModal}
+          onHide={onHideModal}
+          video={selectedVideo}
+        />
       )}
     </>
   );

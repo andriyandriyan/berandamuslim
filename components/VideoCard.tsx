@@ -12,17 +12,16 @@ interface VideoCardProps {
   video: Video;
   innerRef?: LegacyRef<HTMLDivElement>;
   onBookmark?(): void;
+  onClick(): void;
 }
 
-const VideoCard: FC<VideoCardProps> = ({ video, innerRef, onBookmark }) => {
+const VideoCard: FC<VideoCardProps> = ({
+  video, innerRef, onBookmark, onClick,
+}) => {
   const bookmarks: Video[] = typeof localStorage !== 'undefined' ? utils.getVideoBookmarks() : [];
   const [
     isBookmark, setIsBookmark,
   ] = useState(bookmarks.some(bookmark => bookmark.id === video.id));
-
-  const onClick = () => {
-    window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank');
-  };
 
   const published = (date: string) => `${formatDistanceToNowStrict(new Date(date))} yang lalu`;
 
@@ -48,7 +47,7 @@ const VideoCard: FC<VideoCardProps> = ({ video, innerRef, onBookmark }) => {
             src={video.thumbnail}
             alt={video.title}
             loading="lazy"
-            className="object-cover w-full h-44"
+            className="object-cover w-full aspect-video"
           />
           <span className="absolute top-36 right-4 rounded bg-gray-900/70 text-white text-xs font-medium px-1 py-0.5">
             {utils.duration(video.duration)}
