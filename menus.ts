@@ -1,5 +1,5 @@
 import {
-  IconBookmarks, IconHome, IconInfoCircle, TablerIcon,
+  IconBookmarks, IconHome, IconInfoCircle, IconMessageReport, TablerIcon,
 } from '@tabler/icons';
 
 interface Menu {
@@ -18,6 +18,11 @@ const menus: Menu[] = [
     icon: IconBookmarks,
     text: 'Bookmark',
     path: '/bookmarks',
+  },
+  {
+    icon: IconMessageReport,
+    text: 'Feedback',
+    path: '/feedback',
   },
   {
     icon: IconInfoCircle,
