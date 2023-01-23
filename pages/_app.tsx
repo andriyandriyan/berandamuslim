@@ -20,7 +20,7 @@ const poppins = Poppins({
 const queryClient = new QueryClient();
 
 const title = 'Beranda Muslim';
-const description = 'Beranda Muslim adalah website yang berisi kumpulan artikel-artikel Islam yang telah dikumpulkan dari website-website Ahlusunnah bermanhaj salaf.';
+const description = 'Beranda Muslim adalah website yang berisi kumpulan artikel-artikel dan video kajian Islam yang telah dikumpulkan dari website-website dan channel Youtube Ahlusunnah bermanhaj salaf.';
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => (
   <QueryClientProvider client={queryClient}>
