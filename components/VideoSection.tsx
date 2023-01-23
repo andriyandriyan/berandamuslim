@@ -36,6 +36,12 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
   const [selectedVideo, setSelectedVideo] = useState<Video>();
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('popstate', () => setShowModal(false));
+    }
+  }, []);
+
+  useEffect(() => {
     setSearchInput(search);
   }, [search]);
 
@@ -133,7 +139,7 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
             onChange={onChangeChannel}
             closeMenuOnSelect={false}
             classNames={{
-              control: () => '!rounded-lg !border-gray-300 !h-[2.375rem]',
+              control: () => '!rounded-lg !border-gray-300',
               menu: () => '!rounded-lg',
               indicatorSeparator: () => '!bg-gray-300',
               indicatorsContainer: () => '!text-gray-300',
@@ -149,7 +155,7 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
             isClearable
             noOptionsMessage={() => 'Channel tidak ditemukan'}
           />
-          <div className="flex relative mt-4 sm:ml-4 sm:mt-0 flex-1 h-fit">
+          <div className="flex relative mt-4 sm:ml-4 sm:mt-0 flex-1 h-[38px]">
             <input
               type="text"
               className="border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-primary-500 focus:border-primary-500 w-full px-2.5 py-2 outline-none placeholder-gray-400"

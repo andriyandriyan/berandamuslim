@@ -139,7 +139,7 @@ const ArticleSection: FC<ArticleSectionProps> = ({ initialData }) => {
             placeholder="Semua Kategori"
             className="text-sm z-[5] w-full sm:w-60"
             classNames={{
-              control: () => '!rounded-lg !border-gray-300 !h-[2.375rem]',
+              control: () => '!rounded-lg !border-gray-300',
               menu: () => '!rounded-lg',
               indicatorSeparator: () => '!bg-gray-300',
               indicatorsContainer: () => '!text-gray-300',
