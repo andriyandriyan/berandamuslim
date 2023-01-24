@@ -36,5 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 .env
-sw.*
-workbox-*
+public/sw.*
+public/workbox-*
+public/robots.txt
+public/sitemap.xml
