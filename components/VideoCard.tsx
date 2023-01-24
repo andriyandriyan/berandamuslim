@@ -43,15 +43,17 @@ const VideoCard: FC<VideoCardProps> = ({
           tabIndex={0}
           aria-hidden="true"
         >
-          <img
-            src={video.thumbnail}
-            alt={video.title}
-            loading="lazy"
-            className="object-cover w-full aspect-video"
-          />
-          <span className="absolute top-36 right-4 rounded bg-gray-900/70 text-white text-xs font-medium px-1 py-0.5">
-            {utils.duration(video.duration)}
-          </span>
+          <div className="relative">
+            <img
+              src={video.thumbnail}
+              alt={video.title}
+              loading="lazy"
+              className="w-full aspect-video"
+            />
+            <span className="absolute bottom-4 right-4 rounded bg-gray-900/70 text-white text-xs font-medium px-1 py-0.5">
+              {utils.duration(video.duration)}
+            </span>
+          </div>
           <div className="p-4 pb-2">
             <h3 className="font-semibold" dangerouslySetInnerHTML={{ __html: video.title }} />
           </div>
