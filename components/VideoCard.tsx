@@ -45,7 +45,7 @@ const VideoCard: FC<VideoCardProps> = ({
         >
           <div className="relative">
             <img
-              src={video.thumbnail}
+              src={video.thumbnail.replace('mqdefault', 'hqdefault')}
               alt={video.title}
               loading="lazy"
               className="w-full aspect-video"
