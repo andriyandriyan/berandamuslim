@@ -48,7 +48,7 @@ const VideoCard: FC<VideoCardProps> = ({
               src={video.thumbnail.replace('mqdefault', 'hqdefault')}
               alt={video.title}
               loading="lazy"
-              className="w-full aspect-video"
+              className="w-full aspect-video object-cover"
             />
             <span className="absolute bottom-4 right-4 rounded bg-gray-900/70 text-white text-xs font-medium px-1 py-0.5">
               {utils.duration(video.duration)}
