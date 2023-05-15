@@ -46,11 +46,9 @@ interface Query {
   category?: string;
 }
 
-interface ArticleSectionProps {
-  initialData: ResponseAPI<Article[]>;
-}
+interface ArticleSectionProps {}
 
-const ArticleSection: FC<ArticleSectionProps> = ({ initialData }) => {
+const ArticleSection: FC<ArticleSectionProps> = () => {
   const { query, push } = useRouter();
   const { search = '', category = '' }: Query = query;
   const [searchInput, setSearchInput] = useState(search);
@@ -72,10 +70,6 @@ const ArticleSection: FC<ArticleSectionProps> = ({ initialData }) => {
     getNextPageParam: (
       { meta }: ResponseAPI,
     ) => (meta?.nextPageUrl ? meta.currentPage + 1 : undefined),
-    initialData: {
-      pageParams: [1],
-      pages: [initialData],
-    },
   });
 
   const articles: Article[] = data?.pages

@@ -21,11 +21,9 @@ interface Query {
   channel?: string;
 }
 
-interface VideoSectionProps {
-  initialData: ResponseAPI<Video[]>;
-}
+interface VideoSectionProps {}
 
-const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
+const VideoSection: FC<VideoSectionProps> = () => {
   const { query, push } = useRouter();
   const { search = '', channel = '' }: Query = query;
   const [searchInput, setSearchInput] = useState(search);
@@ -63,10 +61,6 @@ const VideoSection: FC<VideoSectionProps> = ({ initialData }) => {
     getNextPageParam: (
       { meta }: ResponseAPI,
     ) => (meta?.nextPageUrl ? meta.currentPage + 1 : undefined),
-    initialData: {
-      pageParams: [1],
-      pages: [initialData],
-    },
   });
 
   const videos: Video[] = data?.pages
