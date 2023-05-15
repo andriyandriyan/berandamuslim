@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import { Poppins } from '@next/font/google';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Analytics } from '@vercel/analytics/react';
 import { setDefaultOptions } from 'date-fns';
 import { id } from 'date-fns/locale';
 import { NextPage } from 'next';
@@ -91,6 +92,7 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => (
       </div>
       <BottomNav />
     </div>
+    <Analytics />
   </QueryClientProvider>
 );
 
